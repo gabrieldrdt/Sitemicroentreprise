@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   /* -----------------------------------------
-     ANNÉE DANS LE FOOTER
+     ANNÉE FOOTER
   ------------------------------------------*/
   const yearSpan = document.getElementById("year");
   if (yearSpan) yearSpan.textContent = new Date().getFullYear();
@@ -46,23 +46,16 @@ document.addEventListener("DOMContentLoaded", () => {
   ------------------------------------------*/
   document.querySelectorAll('a[href^="#"]').forEach((link) => {
     link.addEventListener("click", (e) => {
-      const href = link.getAttribute("href");
-      if (!href.startsWith("#")) return;
-
-      const target = document.querySelector(href);
+      const target = document.querySelector(link.getAttribute("href"));
       if (!target) return;
-
       e.preventDefault();
-      window.scrollTo({
-        top: target.offsetTop - 80,
-        behavior: "smooth"
-      });
+      window.scrollTo({ top: target.offsetTop - 80, behavior: "smooth" });
     });
   });
 
 
   /* -----------------------------------------
-     DASHBOARD (API BACKEND)
+     API CONFIG
   ------------------------------------------*/
   const API = "https://gabriel-durand-touya.onrender.com/api";
 
@@ -70,14 +63,20 @@ document.addEventListener("DOMContentLoaded", () => {
   const statViews = document.getElementById("statViews");
   const statForms = document.getElementById("statForms");
 
+
+  /* -----------------------------------------
+     CHARGER LES STATISTIQUES
+  ------------------------------------------*/
   async function loadStats() {
     try {
       const res = await fetch(`${API}/stats.php`);
       const data = await res.json();
 
-      if (statVisitors) statVisitors.textContent = data.visitors;
-      if (statViews) statViews.textContent = data.views;
-      if (statForms) statForms.textContent = data.forms;
+      if (data.success && data.stats) {
+        if (statVisitors) statVisitors.textContent = data.stats.visitors;
+        if (statViews) statViews.textContent = data.stats.views;
+        if (statForms) statForms.textContent = data.stats.forms;
+      }
 
     } catch (err) {
       console.error("Erreur stats:", err);
@@ -88,7 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   /* -----------------------------------------
-     LOGIN ADMIN (API BACKEND)
+     LOGIN ADMIN
   ------------------------------------------*/
   const adminLoginBtn = document.getElementById("adminLoginBtn");
   const loginModal = document.getElementById("loginModal");
@@ -131,10 +130,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
           localStorage.setItem("adminLogged", "true");
 
-          dashboardBtn.classList.remove("hidden");
-          dashboardSection.classList.remove("hidden");
+          dashboardBtn?.classList.remove("hidden");
+          dashboardSection?.classList.remove("hidden");
 
-          setTimeout(() => loginModal.classList.add("hidden"), 700);
+          setTimeout(() => loginModal.classList.add("hidden"), 800);
 
         } else {
           loginStatus.textContent = data.message;
@@ -149,13 +148,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   if (localStorage.getItem("adminLogged") === "true") {
-    dashboardBtn.classList.remove("hidden");
-    dashboardSection.classList.remove("hidden");
+    dashboardBtn?.classList.remove("hidden");
+    dashboardSection?.classList.remove("hidden");
   }
 
 
   /* -----------------------------------------
-     FORMULAIRE CONTACT (API BACKEND)
+     FORMULAIRE CONTACT
   ------------------------------------------*/
   const contactForm = document.getElementById("contact-form");
   const formStatus = document.getElementById("form-status");
@@ -164,31 +163,23 @@ document.addEventListener("DOMContentLoaded", () => {
     contactForm.addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      const formData = {
-        name: document.getElementById("name").value,
-        email: document.getElementById("email").value,
-        message: document.getElementById("message").value,
-      };
-
       formStatus.textContent = "Envoi...";
       formStatus.style.color = "var(--accent)";
 
       try {
-        const res = await fetch(`${API}/increment.php`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData)
-        });
-
+        // Utilisation de increment.php en GET
+        const res = await fetch(`${API}/increment.php?type=forms`);
         const data = await res.json();
 
-        formStatus.textContent = "Message envoyé ✔️";
-        formStatus.style.color = "lightgreen";
+        if (data.success) {
+          formStatus.textContent = "Message envoyé ✔️";
+          formStatus.style.color = "lightgreen";
 
-        loadStats();
-        contactForm.reset();
+          loadStats();
+          contactForm.reset();
 
-        setTimeout(() => formStatus.textContent = "", 3000);
+          setTimeout(() => formStatus.textContent = "", 3000);
+        }
 
       } catch (err) {
         formStatus.textContent = "Erreur d'envoi ❌";
@@ -206,8 +197,8 @@ document.addEventListener("DOMContentLoaded", () => {
   if (logoutBtn) {
     logoutBtn.addEventListener("click", () => {
       localStorage.removeItem("adminLogged");
-      dashboardBtn.classList.add("hidden");
-      dashboardSection.classList.add("hidden");
+      dashboardBtn?.classList.add("hidden");
+      dashboardSection?.classList.add("hidden");
       alert("Déconnexion effectuée.");
     });
   }

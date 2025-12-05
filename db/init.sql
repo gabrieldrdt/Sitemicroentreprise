@@ -13,6 +13,5 @@ CREATE TABLE stats (
 
 INSERT INTO stats (visitors, views, forms) VALUES (0, 0, 0);
 
--- CRÉER TON COMPTE ADMIN (email + mot de passe hashé)
 INSERT INTO admins (email, password)
-VALUES ('gabrieldurand707@gmail.com', 'Admin123');
+VALUES ('gabrieldurand707@gmail.com', '0192023a7bbd73250516f069df18b500');

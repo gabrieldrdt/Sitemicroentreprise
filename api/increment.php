@@ -1,16 +1,24 @@
 <?php
+header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json");
 
-$db = new PDO("sqlite:../db/database.sqlite");
-
-// augmente pages vues
-$db->exec("UPDATE stats SET views = views + 1 WHERE id = 1");
-
-// vérifie si nouveau visiteur (simple cookie)
-if (!isset($_COOKIE["visited"])) {
-    $db->exec("UPDATE stats SET visitors = visitors + 1 WHERE id = 1");
-    setcookie("visited", "1", time() + 3600 * 24 * 30);
+if (!isset($_GET["type"])) {
+    echo json_encode(["success" => false, "message" => "Type manquant"]);
+    exit;
 }
+
+$type = $_GET["type"];
+
+$allowed = ["visitors", "views", "forms"];
+if (!in_array($type, $allowed)) {
+    echo json_encode(["success" => false, "message" => "Type invalide"]);
+    exit;
+}
+
+$db = new PDO("sqlite:../db/database.sqlite");
+$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+$db->exec("UPDATE stats SET $type = $type + 1 WHERE id = 1");
 
 echo json_encode(["success" => true]);
 ?>
