@@ -62,15 +62,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   /* -----------------------------------------
-     DASHBOARD (backend)
+     DASHBOARD (API BACKEND)
   ------------------------------------------*/
+  const API = "https://gabriel-durand-touya.onrender.com/api";
+
   const statVisitors = document.getElementById("statVisitors");
   const statViews = document.getElementById("statViews");
   const statForms = document.getElementById("statForms");
 
   async function loadStats() {
     try {
-      const res = await fetch("https://gabriel-durand-touya.onrender.com/api/stats.php");
+      const res = await fetch(`${API}/stats.php`);
       const data = await res.json();
 
       if (statVisitors) statVisitors.textContent = data.visitors;
@@ -86,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   /* -----------------------------------------
-     LOGIN ADMIN (backend)
+     LOGIN ADMIN (API BACKEND)
   ------------------------------------------*/
   const adminLoginBtn = document.getElementById("adminLoginBtn");
   const loginModal = document.getElementById("loginModal");
@@ -115,7 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const password = document.getElementById("loginPassword").value;
 
       try {
-        const res = await fetch("https://gabriel-durand-touya.onrender.com/api/login.php", {
+        const res = await fetch(`${API}/login.php`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, password })
@@ -140,8 +142,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
       } catch (err) {
-        loginStatus.textContent = "Erreur serveur";
-        loginStatus.style.color = "salmon";
+        loginStatus.textContent = "Erreur serveur ❌";
+        loginStatus.style.color = "red";
       }
     });
   }
@@ -153,7 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   /* -----------------------------------------
-     FORMULAIRE CONTACT (backend)
+     FORMULAIRE CONTACT (API BACKEND)
   ------------------------------------------*/
   const contactForm = document.getElementById("contact-form");
   const formStatus = document.getElementById("form-status");
@@ -172,7 +174,7 @@ document.addEventListener("DOMContentLoaded", () => {
       formStatus.style.color = "var(--accent)";
 
       try {
-        const res = await fetch("https://gabriel-durand-touya.onrender.com/api/increment.php", {
+        const res = await fetch(`${API}/increment.php`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formData)
