@@ -1,47 +1,65 @@
 document.addEventListener("DOMContentLoaded", () => {
+
+  /* -----------------------------------------
+     ANNEE DANS LE FOOTER
+  ------------------------------------------*/
   const yearSpan = document.getElementById("year");
-  if (yearSpan) {
-    yearSpan.textContent = new Date().getFullYear();
+  if (yearSpan) yearSpan.textContent = new Date().getFullYear();
+
+
+  /* -----------------------------------------
+     THEME (Dark / Light) + Icônes 🌓☀️
+  ------------------------------------------*/
+  const themeSwitch = document.getElementById("themeSwitch");
+  const root = document.documentElement;
+
+  // appliquer le thème stocké
+  if (localStorage.getItem("theme") === "light") {
+    root.classList.add("light");
+    if (themeSwitch) themeSwitch.checked = true;
   }
 
-  const themeSwitch = document.getElementById("themeSwitch");
-  if (localStorage.getItem("theme") === "light") {
-    document.documentElement.classList.add("light");
-    if (themeSwitch) themeSwitch.checked = false;
-  }
+  // changement de thème
   if (themeSwitch) {
     themeSwitch.addEventListener("change", () => {
-      document.documentElement.classList.toggle("light");
-      localStorage.setItem(
-        "theme",
-        document.documentElement.classList.contains("light") ? "light" : "dark"
-      );
+      const isLight = themeSwitch.checked;
+      root.classList.toggle("light", isLight);
+      localStorage.setItem("theme", isLight ? "light" : "dark");
     });
   }
 
+
+  /* -----------------------------------------
+     MENU MOBILE
+  ------------------------------------------*/
   const navToggle = document.querySelector(".nav-toggle");
   const navLinks = document.querySelector(".nav-links");
+
   if (navToggle && navLinks) {
     navToggle.addEventListener("click", () => {
       navLinks.classList.toggle("open");
     });
 
     navLinks.querySelectorAll('a[href^="#"]').forEach((link) => {
-      link.addEventListener("click", () => {
-        navLinks.classList.remove("open");
-      });
+      link.addEventListener("click", () => navLinks.classList.remove("open"));
     });
   }
 
-  const scrollLinks = document.querySelectorAll('a[href^="#"]');
-  scrollLinks.forEach((link) => {
+
+  /* -----------------------------------------
+     SCROLL SMOOTH
+  ------------------------------------------*/
+  document.querySelectorAll('a[href^="#"]').forEach((link) => {
     link.addEventListener("click", (e) => {
       const href = link.getAttribute("href");
-      if (!href || !href.startsWith("#")) return;
+      if (!href.startsWith("#")) return;
+
       const target = document.querySelector(href);
       if (!target) return;
+
       e.preventDefault();
       const offsetTop = target.getBoundingClientRect().top + window.scrollY - 80;
+
       window.scrollTo({
         top: offsetTop,
         behavior: "smooth",
@@ -49,19 +67,29 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+
+  /* -----------------------------------------
+     BASE DE DONNÉES (version locale pour l’instant)
+     PRÊT POUR MIGRATION BACKEND
+  ------------------------------------------*/
   const db = {
     adminEmail: "admin@site.com",
     adminPassword: "admin123",
-    visitors: parseInt(localStorage.getItem("visitors") || "0", 10),
-    views: parseInt(localStorage.getItem("views") || "0", 10),
-    forms: parseInt(localStorage.getItem("forms") || "0", 10),
+    visitors: parseInt(localStorage.getItem("visitors") || "0"),
+    views: parseInt(localStorage.getItem("views") || "0"),
+    forms: parseInt(localStorage.getItem("forms") || "0"),
   };
 
-  db.visitors += 1;
-  db.views += 1;
+  // compter visiteurs + pages vues
+  db.visitors++;
+  db.views++;
   localStorage.setItem("visitors", db.visitors);
   localStorage.setItem("views", db.views);
 
+
+  /* -----------------------------------------
+     DASHBOARD
+  ------------------------------------------*/
   const statVisitors = document.getElementById("statVisitors");
   const statViews = document.getElementById("statViews");
   const statForms = document.getElementById("statForms");
@@ -72,6 +100,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (statForms) statForms.textContent = db.forms;
   }
 
+
+  /* -----------------------------------------
+     LOGIN ADMIN
+  ------------------------------------------*/
   const adminLoginBtn = document.getElementById("adminLoginBtn");
   const loginModal = document.getElementById("loginModal");
   const closeModal = document.getElementById("closeModal");
@@ -80,73 +112,89 @@ document.addEventListener("DOMContentLoaded", () => {
   const dashboardBtn = document.getElementById("dashboardBtn");
   const dashboardSection = document.getElementById("dashboard");
 
-  if (adminLoginBtn && loginModal) {
+  // ouvrir modal login
+  if (adminLoginBtn) {
     adminLoginBtn.addEventListener("click", () => {
       loginModal.classList.remove("hidden");
     });
   }
 
-  if (closeModal && loginModal) {
+  // fermer modal
+  if (closeModal) {
     closeModal.addEventListener("click", () => {
       loginModal.classList.add("hidden");
-      if (loginStatus) loginStatus.textContent = "";
+      loginStatus.textContent = "";
     });
   }
 
-  if (adminLoginForm && loginModal && dashboardBtn && dashboardSection) {
+  // soumission du login
+  if (adminLoginForm) {
     adminLoginForm.addEventListener("submit", (e) => {
       e.preventDefault();
+
       const email = document.getElementById("loginEmail").value;
       const password = document.getElementById("loginPassword").value;
 
       if (email === db.adminEmail && password === db.adminPassword) {
-        if (loginStatus) {
-          loginStatus.textContent = "Connexion réussie ✔️";
-          loginStatus.style.color = "lightgreen";
-        }
+        loginStatus.textContent = "Connexion réussie ✔️";
+        loginStatus.style.color = "lightgreen";
+
         localStorage.setItem("adminLogged", "true");
+
         dashboardBtn.classList.remove("hidden");
         dashboardSection.classList.remove("hidden");
+
         setTimeout(() => {
           loginModal.classList.add("hidden");
-          if (loginStatus) loginStatus.textContent = "";
-        }, 800);
+          loginStatus.textContent = "";
+        }, 700);
+
       } else {
-        if (loginStatus) {
-          loginStatus.textContent = "Identifiants incorrects ❌";
-          loginStatus.style.color = "salmon";
-        }
+        loginStatus.textContent = "Identifiants incorrects ❌";
+        loginStatus.style.color = "salmon";
       }
     });
   }
 
+  // si déjà connecté
   if (localStorage.getItem("adminLogged") === "true") {
-    if (dashboardBtn) dashboardBtn.classList.remove("hidden");
-    if (dashboardSection) dashboardSection.classList.remove("hidden");
+    dashboardBtn.classList.remove("hidden");
+    dashboardSection.classList.remove("hidden");
   }
 
+
+  /* -----------------------------------------
+     FORMULAIRE DE CONTACT
+  ------------------------------------------*/
   const contactForm = document.getElementById("contact-form");
   const formStatus = document.getElementById("form-status");
 
-  if (contactForm && formStatus) {
+  if (contactForm) {
     contactForm.addEventListener("submit", (e) => {
       e.preventDefault();
-      db.forms += 1;
-      localStorage.setItem("forms", db.forms.toString());
+
+      db.forms++;
+      localStorage.setItem("forms", db.forms);
+
       updateDashboard();
+
       formStatus.textContent = "Message envoyé ! ✔️";
-      formStatus.classList.remove("error");
       formStatus.classList.add("success");
+      formStatus.classList.remove("error");
+
       contactForm.reset();
-      setTimeout(() => {
-        formStatus.textContent = "";
-        formStatus.classList.remove("success");
-      }, 3000);
+
+      setTimeout(() => formStatus.textContent = "", 3000);
     });
   }
 
+
+  /* -----------------------------------------
+     DECONNEXION ADMIN
+  ------------------------------------------*/
   const logoutBtn = document.getElementById("logoutBtn");
-  if (logoutBtn && dashboardBtn && dashboardSection) {
+
+  if (logoutBtn) {
     logoutBtn.addEventListener("click", () => {
       localStorage.removeItem("adminLogged");
       dashboardBtn.classList.add("hidden");
@@ -155,5 +203,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+
+  /* Mise à jour initiale du dashboard */
   updateDashboard();
 });

@@ -209,21 +209,12 @@ body {
   color: var(--accent);
 }
 
-.theme-toggle .icon-moon {
-  display: inline-block;
-}
+.theme-toggle .icon-moon { display: inline-block; }
+.theme-toggle .icon-sun { display: none; }
 
-.theme-toggle .icon-sun {
-  display: none;
-}
+.light .theme-toggle .icon-sun { display: inline-block; }
+.light .theme-toggle .icon-moon { display: none; }
 
-.light .theme-toggle .icon-sun {
-  display: inline-block;
-}
-
-.light .theme-toggle .icon-moon {
-  display: none;
-}
 
 /* BUTTONS */
 .btn {
