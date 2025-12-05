@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Gabriel Durand-Touya • Développeur Web & Web Designer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Développeur Web & Web Designer freelance. Création de sites vitrines, e-commerce, outils web modernes et performants.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="logo">
+        <span class="logo-mark">GD</span>
+        <div class="logo-text">
+          <span class="logo-name">Gabriel Durand-Touya</span>
+          <span class="logo-role">Développeur Web & Web Designer</span>
+        </div>
+      </div>
+
+      <nav class="main-nav">
+        <button class="nav-toggle"><span class="bar"></span><span class="bar"></span></button>
+        <ul class="nav-links">
+          <li><a href="#home">Accueil</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#portfolio">Portfolio</a></li>
+          <li><a href="#about">À propos</a></li>
+          <li><a href="#dashboard" id="dashboardBtn" class="dashboard-btn hidden">Dashboard</a></li>
+          <li><a href="#contact" class="btn btn-primary btn-small">Contact</a></li>
+        </ul>
+
+        <div class="theme-toggle">
+          <input type="checkbox" id="themeSwitch">
+          <label for="themeSwitch">🌙</label>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <main>
+    <section id="home" class="hero">
+      <div class="container hero-inner">
+        <div class="hero-content">
+          <p class="hero-kicker">Disponible • Toulouse & Biarritz</p>
+          <h1>Je conçois des sites web <span class="accent">modernes</span> et <span class="accent">performants</span></h1>
+          <p class="hero-subtitle">Développeur web & web designer, j’aide indépendants et entreprises à créer une présence en ligne claire, professionnelle et efficace.</p>
+
+          <div class="hero-actions">
+            <a href="#contact" class="btn btn-primary">Démarrer un projet</a>
+            <a href="#portfolio" class="btn btn-ghost">Voir mes réalisations</a>
+          </div>
+
+          <div class="hero-badges">
+            <span>Sites vitrines & e-commerce</span>
+            <span>Design sur mesure</span>
+            <span>Optimisation performance & SEO</span>
+          </div>
+        </div>
+
+        <div class="hero-sidecard">
+          <div class="hero-card">
+            <p class="hero-card-title">Pourquoi travailler avec moi ?</p>
+            <ul class="hero-card-list">
+              <li>Code propre</li>
+              <li>Design UX optimisé</li>
+              <li>Accompagnement complet</li>
+              <li>Expérience sur projets réels</li>
+            </ul>
+            <p class="hero-card-foot">Réponse sous 24h.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services" class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <h2>Services</h2>
+          <p>Des solutions adaptées pour créer, améliorer et optimiser votre présence en ligne.</p>
+        </div>
+
+        <div class="grid grid-2">
+          <article class="card">
+            <h3>Site vitrine professionnel</h3>
+            <p>Site rapide, responsive, clair et optimisé pour présenter votre activité.</p>
+            <ul class="card-list">
+              <li>Design personnalisé</li>
+              <li>Version mobile optimisée</li>
+              <li>Formulaire de contact</li>
+              <li>SEO de base</li>
+            </ul>
+            <p class="card-price">À partir de 700€</p>
+          </article>
+
+          <article class="card">
+            <h3>Site e-commerce</h3>
+            <p>Boutique en ligne complète, sécurisée et simple à gérer.</p>
+            <ul class="card-list">
+              <li>Catalogue produits</li>
+              <li>Paiement sécurisé</li>
+              <li>Gestion des commandes</li>
+              <li>Conseils conversion</li>
+            </ul>
+            <p class="card-price">Sur devis</p>
+          </article>
+
+          <article class="card">
+            <h3>Applications / Outils web</h3>
+            <p>Développement sur mesure : dashboards, stats, automatisations.</p>
+            <ul class="card-list">
+              <li>API Spotify / TikTok</li>
+              <li>Outils statistiques</li>
+              <li>UI moderne</li>
+              <li>Architecture scalable</li>
+            </ul>
+            <p class="card-price">Sur devis</p>
+          </article>
+
+          <article class="card">
+            <h3>Refonte & Optimisation</h3>
+            <p>Amélioration performance, design, contenu et structure.</p>
+            <ul class="card-list">
+              <li>Audit complet</li>
+              <li>Modernisation</li>
+              <li>Optimisation SEO</li>
+              <li>Maintenance possible</li>
+            </ul>
+            <p class="card-price">À partir de 350€</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PORTFOLIO -->
+    <section id="portfolio" class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Portfolio</h2>
+          <p>Quelques projets représentatifs.</p>
+        </div>
+
+        <div class="grid grid-3">
+          <article class="project-card">
+            <div class="project-tag">Extension Chrome</div>
+            <h3>AI Résumeur</h3>
+            <p>Extension qui résume des pages web via IA.</p>
+          </article>
+
+          <article class="project-card">
+            <div class="project-tag">Statistiques</div>
+            <h3>Spotify Dashboard</h3>
+            <p>Stats avancées avec API Spotify.</p>
+          </article>
+
+          <article class="project-card">
+            <div class="project-tag">Jeu vidéo</div>
+            <h3>Office Escape</h3>
+            <p>Jeu JavaFX complet.</p>
+          </article>
+
+          <article class="project-card">
+            <div class="project-tag">Gaming</div>
+            <h3>Générateur de builds LoL</h3>
+            <p>Outil fun & interactif.</p>
+          </article>
+
+          <article class="project-card">
+            <div class="project-tag">Site perso</div>
+            <h3>Portfolio développeur</h3>
+            <p>Site moderne dark/light.</p>
+          </article>
+
+          <article class="project-card">
+            <div class="project-tag">Branding</div>
+            <h3>assistant.ia</h3>
+            <p>Identité TikTok / IA.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="section section-alt">
+      <div class="container about-grid">
+        <div>
+          <h2>À propos</h2>
+          <p>Je suis Gabriel Durand-Touya, développeur web & web designer basé entre Toulouse et Biarritz.</p>
+          <p>J’aide indépendants, commerces et projets digitaux à se développer en ligne grâce à des sites modernes, rapides et orientés résultats.</p>
+          <ul class="about-list">
+            <li>Indépendants & freelances</li>
+            <li>Commerces locaux</li>
+            <li>Projets tech ou gaming</li>
+          </ul>
+        </div>
+
+        <div class="about-side">
+          <div class="about-card">
+            <h3>Compétences</h3>
+            <ul>
+              <li>HTML, CSS, JS</li>
+              <li>React</li>
+              <li>Design UI/UX</li>
+              <li>Node.js</li>
+              <li>SEO & performance</li>
+            </ul>
+          </div>
+
+          <div class="about-card">
+            <h3>Travail</h3>
+            <ul>
+              <li>Échange initial</li>
+              <li>Maquettes</li>
+              <li>Version de test</li>
+              <li>Livraison finale</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section">
+      <div class="container contact-grid">
+        <div>
+          <h2>Contact</h2>
+          <p>Décrivez votre projet, je vous réponds rapidement.</p>
+
+          <div class="contact-infos">
+            <div>
+              <h3>Email</h3>
+              <a href="mailto:gabrieldurand707@gmail.com">gabrieldurand707@gmail.com</a>
+            </div>
+            <div>
+              <h3>Localisation</h3>
+              <p>Toulouse & Biarritz</p>
+            </div>
+          </div>
+
+          <div class="socials">
+            <h3>Réseaux</h3>
+            <div class="social-links">
+              <a href="https://www.linkedin.com/in/gabriel-durand-touya-182ab3349/">LinkedIn</a>
+              <a href="https://github.com/gabrieldrdt">GitHub</a>
+            </div>
+          </div>
+        </div>
+
+        <form id="contact-form" class="contact-form">
+          <div class="form-group">
+            <label for="name">Nom *</label>
+            <input type="text" id="name" placeholder="Entrez votre nom" required>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email *</label>
+            <input type="email" id="email" placeholder="Entrez votre email" required>
+          </div>
+
+          <div class="form-group">
+            <label for="projectType">Type de projet *</label>
+            <select id="projectType" required>
+              <option value="">Sélectionnez un type de projet</option>
+              <option value="vitrine">Site vitrine</option>
+              <option value="ecommerce">E-commerce</option>
+              <option value="outil">Outil web</option>
+              <option value="refonte">Refonte</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="budget">Budget</label>
+            <select id="budget">
+              <option value="">Sélectionnez un budget</option>
+              <option value="500-1000">500–1000€</option>
+              <option value="1000-2000">1000–2000€</option>
+              <option value="2000-5000">2000–5000€</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="message">Message *</label>
+            <textarea id="message" rows="5" placeholder="Décrivez votre projet ou vos besoins…" required></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-full">Envoyer</button>
+          <p id="form-status"></p>
+        </form>
+      </div>
+    </section>
+
+    <!-- ADMIN DASHBOARD -->
+    <section id="dashboard" class="section hidden">
+      <div class="container">
+        <h2>Dashboard Administrateur</h2>
+
+        <div class="stats-grid">
+          <div class="stat-card"><h3>Visiteurs</h3><p id="statVisitors">0</p></div>
+          <div class="stat-card"><h3>Pages vues</h3><p id="statViews">0</p></div>
+          <div class="stat-card"><h3>Formulaires</h3><p id="statForms">0</p></div>
+        </div>
+
+        <button id="logoutBtn" class="btn btn-ghost">Se déconnecter</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-inner container">
+      <p>© <span id="year"></span> Gabriel Durand-Touya</p>
+      <button id="adminLoginBtn" class="footer-login-btn">Connexion Admin</button>
+    </div>
+  </footer>
+
+  <!-- LOGIN MODAL -->
+  <div id="loginModal" class="modal hidden">
+    <div class="modal-content">
+      <h3>Connexion Admin</h3>
+
+      <form id="adminLoginForm">
+        <label>Email</label>
+        <input type="email" id="loginEmail" required>
+
+        <label>Mot de passe</label>
+        <input type="password" id="loginPassword" required>
+
+        <button class="btn btn-primary btn-full">Connexion</button>
+        <p id="loginStatus"></p>
+      </form>
+
+      <button id="closeModal" class="btn btn-ghost btn-full">Fermer</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
