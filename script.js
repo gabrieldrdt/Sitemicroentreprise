@@ -1,25 +1,23 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   /* -----------------------------------------
-     ANNEE DANS LE FOOTER
+     ANNÉE DANS LE FOOTER
   ------------------------------------------*/
   const yearSpan = document.getElementById("year");
   if (yearSpan) yearSpan.textContent = new Date().getFullYear();
 
 
   /* -----------------------------------------
-     THEME (Dark / Light) + Icônes 🌓☀️
+     THÈME LIGHT / DARK
   ------------------------------------------*/
   const themeSwitch = document.getElementById("themeSwitch");
   const root = document.documentElement;
 
-  // appliquer le thème stocké
   if (localStorage.getItem("theme") === "light") {
     root.classList.add("light");
     if (themeSwitch) themeSwitch.checked = true;
   }
 
-  // changement de thème
   if (themeSwitch) {
     themeSwitch.addEventListener("change", () => {
       const isLight = themeSwitch.checked;
@@ -36,12 +34,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const navLinks = document.querySelector(".nav-links");
 
   if (navToggle && navLinks) {
-    navToggle.addEventListener("click", () => {
-      navLinks.classList.toggle("open");
-    });
-
-    navLinks.querySelectorAll('a[href^="#"]').forEach((link) => {
-      link.addEventListener("click", () => navLinks.classList.remove("open"));
+    navToggle.addEventListener("click", () => navLinks.classList.toggle("open"));
+    navLinks.querySelectorAll('a[href^="#"]').forEach((l) => {
+      l.addEventListener("click", () => navLinks.classList.remove("open"));
     });
   }
 
@@ -58,51 +53,40 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!target) return;
 
       e.preventDefault();
-      const offsetTop = target.getBoundingClientRect().top + window.scrollY - 80;
-
       window.scrollTo({
-        top: offsetTop,
-        behavior: "smooth",
+        top: target.offsetTop - 80,
+        behavior: "smooth"
       });
     });
   });
 
 
   /* -----------------------------------------
-     BASE DE DONNÉES (version locale pour l’instant)
-     PRÊT POUR MIGRATION BACKEND
-  ------------------------------------------*/
-  const db = {
-    adminEmail: "admin@site.com",
-    adminPassword: "admin123",
-    visitors: parseInt(localStorage.getItem("visitors") || "0"),
-    views: parseInt(localStorage.getItem("views") || "0"),
-    forms: parseInt(localStorage.getItem("forms") || "0"),
-  };
-
-  // compter visiteurs + pages vues
-  db.visitors++;
-  db.views++;
-  localStorage.setItem("visitors", db.visitors);
-  localStorage.setItem("views", db.views);
-
-
-  /* -----------------------------------------
-     DASHBOARD
+     DASHBOARD (backend)
   ------------------------------------------*/
   const statVisitors = document.getElementById("statVisitors");
   const statViews = document.getElementById("statViews");
   const statForms = document.getElementById("statForms");
 
-  function updateDashboard() {
-    if (statVisitors) statVisitors.textContent = db.visitors;
-    if (statViews) statViews.textContent = db.views;
-    if (statForms) statForms.textContent = db.forms;
+  async function loadStats() {
+    try {
+      const res = await fetch("https://gabriel-durand-touya.onrender.com/api/stats.php");
+      const data = await res.json();
+
+      if (statVisitors) statVisitors.textContent = data.visitors;
+      if (statViews) statViews.textContent = data.views;
+      if (statForms) statForms.textContent = data.forms;
+
+    } catch (err) {
+      console.error("Erreur stats:", err);
+    }
   }
+
+  loadStats();
 
 
   /* -----------------------------------------
-     LOGIN ADMIN
+     LOGIN ADMIN (backend)
   ------------------------------------------*/
   const adminLoginBtn = document.getElementById("adminLoginBtn");
   const loginModal = document.getElementById("loginModal");
@@ -112,14 +96,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const dashboardBtn = document.getElementById("dashboardBtn");
   const dashboardSection = document.getElementById("dashboard");
 
-  // ouvrir modal login
   if (adminLoginBtn) {
-    adminLoginBtn.addEventListener("click", () => {
-      loginModal.classList.remove("hidden");
-    });
+    adminLoginBtn.addEventListener("click", () => loginModal.classList.remove("hidden"));
   }
 
-  // fermer modal
   if (closeModal) {
     closeModal.addEventListener("click", () => {
       loginModal.classList.add("hidden");
@@ -127,36 +107,45 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // soumission du login
   if (adminLoginForm) {
-    adminLoginForm.addEventListener("submit", (e) => {
+    adminLoginForm.addEventListener("submit", async (e) => {
       e.preventDefault();
 
       const email = document.getElementById("loginEmail").value;
       const password = document.getElementById("loginPassword").value;
 
-      if (email === db.adminEmail && password === db.adminPassword) {
-        loginStatus.textContent = "Connexion réussie ✔️";
-        loginStatus.style.color = "lightgreen";
+      try {
+        const res = await fetch("https://gabriel-durand-touya.onrender.com/api/login.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password })
+        });
 
-        localStorage.setItem("adminLogged", "true");
+        const data = await res.json();
 
-        dashboardBtn.classList.remove("hidden");
-        dashboardSection.classList.remove("hidden");
+        if (data.success) {
+          loginStatus.textContent = "Connexion réussie ✔️";
+          loginStatus.style.color = "lightgreen";
 
-        setTimeout(() => {
-          loginModal.classList.add("hidden");
-          loginStatus.textContent = "";
-        }, 700);
+          localStorage.setItem("adminLogged", "true");
 
-      } else {
-        loginStatus.textContent = "Identifiants incorrects ❌";
+          dashboardBtn.classList.remove("hidden");
+          dashboardSection.classList.remove("hidden");
+
+          setTimeout(() => loginModal.classList.add("hidden"), 700);
+
+        } else {
+          loginStatus.textContent = data.message;
+          loginStatus.style.color = "salmon";
+        }
+
+      } catch (err) {
+        loginStatus.textContent = "Erreur serveur";
         loginStatus.style.color = "salmon";
       }
     });
   }
 
-  // si déjà connecté
   if (localStorage.getItem("adminLogged") === "true") {
     dashboardBtn.classList.remove("hidden");
     dashboardSection.classList.remove("hidden");
@@ -164,33 +153,51 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   /* -----------------------------------------
-     FORMULAIRE DE CONTACT
+     FORMULAIRE CONTACT (backend)
   ------------------------------------------*/
   const contactForm = document.getElementById("contact-form");
   const formStatus = document.getElementById("form-status");
 
   if (contactForm) {
-    contactForm.addEventListener("submit", (e) => {
+    contactForm.addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      db.forms++;
-      localStorage.setItem("forms", db.forms);
+      const formData = {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        message: document.getElementById("message").value,
+      };
 
-      updateDashboard();
+      formStatus.textContent = "Envoi...";
+      formStatus.style.color = "var(--accent)";
 
-      formStatus.textContent = "Message envoyé ! ✔️";
-      formStatus.classList.add("success");
-      formStatus.classList.remove("error");
+      try {
+        const res = await fetch("https://gabriel-durand-touya.onrender.com/api/increment.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData)
+        });
 
-      contactForm.reset();
+        const data = await res.json();
 
-      setTimeout(() => formStatus.textContent = "", 3000);
+        formStatus.textContent = "Message envoyé ✔️";
+        formStatus.style.color = "lightgreen";
+
+        loadStats();
+        contactForm.reset();
+
+        setTimeout(() => formStatus.textContent = "", 3000);
+
+      } catch (err) {
+        formStatus.textContent = "Erreur d'envoi ❌";
+        formStatus.style.color = "salmon";
+      }
     });
   }
 
 
   /* -----------------------------------------
-     DECONNEXION ADMIN
+     LOGOUT
   ------------------------------------------*/
   const logoutBtn = document.getElementById("logoutBtn");
 
@@ -203,7 +210,4 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-
-  /* Mise à jour initiale du dashboard */
-  updateDashboard();
 });
