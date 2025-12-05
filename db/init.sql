@@ -15,4 +15,4 @@ INSERT INTO stats (visitors, views, forms) VALUES (0, 0, 0);
 
 -- CRÉER TON COMPTE ADMIN (email + mot de passe hashé)
 INSERT INTO admins (email, password)
-VALUES ('gabrieldurand707@gmail.com', '59b0844e98063e4a810dd014c553fd09081aae3fdb5ab919260c67af2abb357b');
+VALUES ('gabrieldurand707@gmail.com', 'Admin123');
