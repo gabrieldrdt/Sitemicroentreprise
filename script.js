@@ -16,9 +16,12 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   // 1. Ouvre la modale
-  openLaunchOfferBtn?.addEventListener('click', () => {
-      launchModal?.classList.remove('hidden');
-  });
+  if (openLaunchOfferBtn && launchModal) {
+    openLaunchOfferBtn.addEventListener('click', () => {
+        // console.log("Bouton d'offre cliqué!"); // Décommenter si le problème persiste
+        launchModal.classList.remove('hidden');
+    });
+  }
 
   // 2. Fermeture via le bouton 'Fermer'
   closeLaunchModalBtn?.addEventListener('click', hideLaunchModal);

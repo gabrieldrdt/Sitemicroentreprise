@@ -934,7 +934,7 @@ body {
   border-color: rgba(129, 140, 248, 0.6) !important;
 }
 
-/* MOBILE NAV (Amélioration) */
+/* MOBILE NAV (Amélioration pour l'esthétique) */
 @media (max-width: 768px) {
   .nav-toggle {
     display: block;
@@ -943,23 +943,22 @@ body {
   .nav-links {
     position: fixed; 
     top: 0;
-    left: 0;
+    left: -100%; /* Masquer hors de l'écran (gauche) */
     width: 100%;
     height: 100%; 
     background: var(--bg);
-    border-bottom: none;
     flex-direction: column;
     justify-content: center; 
     align-items: center; 
     padding: 2rem 1.2rem;
-    transform: translateX(100%); 
     opacity: 0;
     pointer-events: none;
     transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+    z-index: 40; /* Sous la modale si elle apparaît, mais au-dessus du reste */
   }
 
   .nav-links.open {
-    transform: translateX(0);
+    transform: translateX(100%); /* Glisser dans l'écran */
     opacity: 1;
     pointer-events: auto;
   }
@@ -970,26 +969,37 @@ body {
     text-align: center;
   }
 
-  .nav-links a,
-  .nav-links .btn {
+  .nav-links a {
     width: 100%;
-    padding: 0.9rem 1.5rem; 
-    font-size: 1.15rem; 
+    padding: 1rem 1.5rem; /* Augmentation de la zone de clic */
+    font-size: 1.2rem; /* Rendre le texte plus grand */
     font-weight: 500;
     color: var(--text);
+    transition: color 0.2s ease;
   }
   
   .nav-links a:hover {
     color: var(--accent);
   }
-
-  /* Le bouton "Contact" reste primaire et stylisé */
-  .nav-links li:last-child a { 
+  
+  /* Style spécifique pour le bouton Contact dans le menu mobile */
+  .nav-links li:last-child {
       margin-top: 1.5rem; 
   }
   
-  /* Cache les icônes de thème si non nécessaires dans le menu ouvert */
-  .nav-links .theme-toggle {
-      margin-top: 1.5rem;
+  .nav-links li:last-child a {
+      /* Pour le bouton Contact primaire */
+      background: linear-gradient(120deg, var(--accent), var(--accent-2));
+      color: white;
+  }
+
+  /* Cache le thème toggle pour éviter la duplication visuelle */
+  .theme-toggle {
+      display: none;
+  }
+  
+  /* S'assurer que le bouton d'offre sur la page d'accueil ne soit pas un lien pour éviter le scroll */
+  #openLaunchOffer {
+      cursor: pointer;
   }
 }
