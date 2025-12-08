@@ -862,6 +862,7 @@ body {
     max-width: 450px;
     padding: 2.5rem 2rem;
     border: 1px solid var(--accent);
+    text-align: center; 
 }
 
 .launch-modal .launch-subtitle {
@@ -902,12 +903,6 @@ body {
     margin-bottom: 0.8rem; /* Ajout d'une marge sous le bouton principal */
 }
 
-/* Assurer la cohérence du centrage */
-.launch-modal .modal-content {
-    /* ... autres styles ... */
-    text-align: center; /* Assure que tout est bien centré */
-}
-
 /* LIGHT MODE HEADER & SOCIALS */
 .light .site-header {
   background: rgba(255, 255, 255, 0.9);
@@ -939,36 +934,50 @@ body {
   border-color: rgba(129, 140, 248, 0.6) !important;
 }
 
-/* MOBILE NAV */
+/* MOBILE NAV (Amélioration) */
 @media (max-width: 768px) {
   .nav-toggle {
     display: block;
   }
 
   .nav-links {
-    position: absolute;
-    inset: 100% 0 auto 0;
+    position: fixed; /* Utiliser fixed pour couvrir tout le viewport */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; /* Couvrir toute la hauteur */
     background: var(--bg);
-    border-bottom: 1px solid rgba(30, 64, 175, 0.7);
+    border-bottom: none;
     flex-direction: column;
-    align-items: flex-start;
-    padding: 0.6rem 1.2rem 1rem;
-    transform: scaleY(0);
-    transform-origin: top;
+    justify-content: center; /* Centrer verticalement */
+    align-items: center; /* Centrer horizontalement */
+    padding: 2rem 1.2rem;
+    transform: translateX(100%); /* Masquer hors de l'écran */
     opacity: 0;
     pointer-events: none;
-    transition: 0.15s ease;
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
   }
 
   .nav-links.open {
-    transform: scaleY(1);
+    transform: translateX(0);
     opacity: 1;
     pointer-events: auto;
+  }
+  
+  .nav-links li {
+    margin-bottom: 1.2rem; /* Espacement entre les liens */
   }
 
   .nav-links a,
   .nav-links .btn {
     width: 100%;
-    padding-inline: 0;
+    padding: 0.8rem 1.5rem; /* Augmenter la zone de clic */
+    text-align: center;
+    font-size: 1.1rem; /* Rendre le texte plus grand */
+  }
+
+  /* Cache les icônes de thème dans le menu ouvert si non nécessaires */
+  .nav-links .theme-toggle {
+      margin-top: 1.5rem;
   }
 }

@@ -2,25 +2,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* -----------------------------------------
      MODALE OFFRE DE LANCEMENT (DÉBUT)
-     Correction: Affiche uniquement si non déjà vue (localStorage)
+     Correction: Affiche immédiatement, puis se cache si déjà vue (localStorage)
   ------------------------------------------*/
   const launchModal = document.getElementById('launchModal');
   const closeLaunchModalBtn = document.getElementById('closeLaunchModal');
   const acceptLaunchOfferLink = document.getElementById('acceptLaunchOffer');
 
-  if (launchModal && !localStorage.getItem('launchModalShown')) {
-    // Afficher la modale au chargement
-    launchModal.classList.remove('hidden');
+  if (launchModal) {
+    if (localStorage.getItem('launchModalShown') === 'true') {
+        launchModal.classList.add('hidden'); // Cacher si déjà vue
+    }
 
     const hideModal = () => {
         launchModal.classList.add('hidden');
         localStorage.setItem('launchModalShown', 'true'); // Mémoriser l'action
     };
 
-    // Fermeture via le bouton 'Fermer'
+    // Fermeture via les boutons
     closeLaunchModalBtn?.addEventListener('click', hideModal);
-
-    // Fermeture via le bouton d'action 'Je saisis l'opportunité'
     acceptLaunchOfferLink?.addEventListener('click', hideModal);
   }
 
