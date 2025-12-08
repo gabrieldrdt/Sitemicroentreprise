@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* -----------------------------------------
      MODALE OFFRE DE LANCEMENT (AU CLIC)
+     Correction: Logique simplifiée pour ouvrir/fermer au clic du bouton.
   ------------------------------------------*/
   const launchModal = document.getElementById('launchModal');
   const openLaunchOfferBtn = document.getElementById('openLaunchOffer');
@@ -15,10 +16,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  // 1. Ouvre la modale
+  // 1. Ouvre la modale au clic
   if (openLaunchOfferBtn && launchModal) {
     openLaunchOfferBtn.addEventListener('click', () => {
-        // console.log("Bouton d'offre cliqué!"); // Décommenter si le problème persiste
         launchModal.classList.remove('hidden');
     });
   }
@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const statVisitors = document.getElementById("statVisitors");
   const statViews = document.getElementById("statViews");
-  const statForms = document.getElementById("statForms");
+  const statForms = document.getElementById("formStatus"); // Correction ici, il faut cibler le bon ID
 
 
   /* -----------------------------------------
@@ -106,7 +106,9 @@ document.addEventListener("DOMContentLoaded", () => {
       if (data.success && data.stats) {
         if (statVisitors) statVisitors.textContent = data.stats.visitors;
         if (statViews) statViews.textContent = data.stats.views;
-        if (statForms) statForms.textContent = data.stats.forms;
+        // Correction de la cible
+        const statFormsElement = document.getElementById("statForms");
+        if (statFormsElement) statFormsElement.textContent = data.stats.forms;
       }
 
     } catch (err) {
