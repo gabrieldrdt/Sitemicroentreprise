@@ -2,13 +2,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* -----------------------------------------
      MODALE OFFRE DE LANCEMENT (DÉBUT)
+     Correction: Affiche immédiatement, puis se cache si déjà vue (localStorage)
   ------------------------------------------*/
   const launchModal = document.getElementById('launchModal');
-  const closeLaunchModalBtn = document.getElementById('closeLaunchModal');
-  const acceptLaunchOfferLink = document.getElementById('acceptLaunchOffer');
-
+  
   // Fonction centrale pour masquer la modale et enregistrer l'action
-  const hideModal = () => {
+  const hideLaunchModal = () => {
     if (launchModal) {
         launchModal.classList.add('hidden');
         localStorage.setItem('launchModalShown', 'true'); // Mémoriser l'action
@@ -20,14 +19,16 @@ document.addEventListener("DOMContentLoaded", () => {
         launchModal.classList.add('hidden'); // Cacher si déjà vue
     }
 
+    const closeLaunchModalBtn = document.getElementById('closeLaunchModal');
+    const acceptLaunchOfferLink = document.getElementById('acceptLaunchOffer');
+
     // Assignation des écouteurs d'événements
-    closeLaunchModalBtn?.addEventListener('click', hideModal);
+    closeLaunchModalBtn?.addEventListener('click', hideLaunchModal);
     
     // Le lien d'acceptation doit se fermer ET suivre le lien #contact
     acceptLaunchOfferLink?.addEventListener('click', function(event) {
-        hideModal(); 
-        // Laisse l'action par défaut du lien href="#contact" se dérouler 
-        // pour que le scroll smooth fonctionne (géré plus bas)
+        hideLaunchModal(); 
+        // Le scroll vers #contact est géré par la fonction SCROLL SMOOTH (plus bas)
     });
   }
 
@@ -67,6 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (navToggle && navLinks) {
     navToggle.addEventListener("click", () => navLinks.classList.toggle("open"));
+    // Fermeture du menu lorsque l'on clique sur un lien (pour UX mobile)
     navLinks.querySelectorAll('a[href^="#"]').forEach((l) => {
       l.addEventListener("click", () => navLinks.classList.remove("open"));
     });
@@ -181,7 +183,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (localStorage.getItem("adminLogged") === "true") {
     dashboardBtn?.classList.remove("hidden");
-    dashboardSection?.classList.remove("hidden");
+    dashboardSection?.classList.add("hidden");
   }
 
 

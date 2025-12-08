@@ -965,18 +965,30 @@ body {
   }
   
   .nav-links li {
-    margin-bottom: 1.2rem; 
+    margin-bottom: 1.5rem; /* Augmentation de l'espacement pour la clarté */
+    width: 80%; /* Pour donner plus de structure */
+    text-align: center;
   }
 
   .nav-links a,
   .nav-links .btn {
     width: 100%;
-    padding: 0.8rem 1.5rem; 
-    text-align: center;
-    font-size: 1.1rem; 
+    padding: 0.9rem 1.5rem; /* Augmentation de la zone de clic */
+    font-size: 1.15rem; /* Rendre le texte plus grand */
+    font-weight: 500;
+    color: var(--text);
+  }
+  
+  .nav-links a:hover {
+    color: var(--accent);
   }
 
-  /* Cache les icônes de thème dans le menu ouvert si non nécessaires */
+  /* Le bouton "Contact" reste primaire et stylisé */
+  .nav-links li:last-child a { 
+      margin-top: 1.5rem; 
+  }
+  
+  /* Cache les icônes de thème si non nécessaires dans le menu ouvert */
   .nav-links .theme-toggle {
       margin-top: 1.5rem;
   }
