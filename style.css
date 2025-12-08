@@ -673,7 +673,7 @@ body {
   display: block;
   font-size: 0.82rem;
   margin-bottom: 0.25rem;
-  color: #e5e7eb;
+  color: var(--text);
 }
 
 .form-group input,
@@ -683,7 +683,7 @@ body {
   border-radius: 0.7rem;
   border: 1px solid rgba(148, 163, 184, 0.65);
   background: rgba(15, 23, 42, 0.9);
-  color: #e5e7eb;
+  color: var(--text);
   padding: 0.6rem 0.7rem;
   font-size: 0.85rem;
   outline: none;
@@ -699,20 +699,20 @@ body {
 
 /* light: texte + labels + placeholder en noir */
 .light .form-group label {
-  color: #000 !important;
+  color: #0f172a !important;
 }
 
 .light .contact-form input,
 .light .contact-form textarea,
 .light .contact-form select {
-  color: #000 !important;
+  color: #0f172a !important;
   background: #ffffff !important;
   border-color: #d0d7e2 !important;
 }
 
 .light .contact-form input::placeholder,
 .light .contact-form textarea::placeholder {
-  color: #000 !important;
+  color: #94a3b8 !important;
 }
 
 /* FORM STATUS */
@@ -942,34 +942,35 @@ body {
   border-color: rgba(129, 140, 248, 0.6) !important;
 }
 
-/* MOBILE NAV (Correction du positionnement et du style) */
+/* MOBILE NAV (Correction pour full height et visibilité) */
 @media (max-width: 768px) {
   .nav-toggle {
     display: block;
     z-index: 60;
   }
   
-  /* Permettre au conteneur de navigation d'être le parent pour le positionnement absolu */
+  /* Retirer le positionnement relatif du main-nav, car nav-links est FIXED */
   .main-nav {
-      position: relative; 
+      position: static; 
   }
 
   .nav-links {
-    /* Positionnement sous le header */
-    position: absolute; 
-    top: 100%; /* S'aligne parfaitement sous le header */
+    /* Positionnement FIXED pour couvrir le viewport restant */
+    position: fixed; 
+    top: 60px; /* Aligné sous le header sticky */
     left: 0;
     width: 100%;
-    height: auto; 
+    height: calc(100vh - 60px); /* Hauteur restante du viewport */
+    overflow-y: auto; 
     
     /* Style du panneau de navigation */
     background: var(--bg-alt); 
     box-shadow: 0 8px 10px rgba(0, 0, 0, 0.2);
     border-bottom: 1px solid var(--border);
-    padding: 0.5rem 0; 
+    padding: 0; 
     
     /* Animation de glissement */
-    transform: translateY(-100%); /* Masquer au-dessus du header */
+    transform: translateY(-100%); /* Masquer au-dessus */
     opacity: 0;
     pointer-events: none;
     transition: transform 0.3s ease-out, opacity 0.3s ease-out;
@@ -977,7 +978,7 @@ body {
     
     /* Rendre la liste verticale */
     flex-direction: column; 
-    align-items: flex-start;
+    align-items: center; /* Centrer l'ensemble des éléments dans le menu */
   }
 
   .nav-links.open {
@@ -987,25 +988,27 @@ body {
   }
   
   .nav-links li {
-    width: 100%; 
+    width: 90%; 
     margin-bottom: 0; 
     border-bottom: 1px solid rgba(148, 163, 184, 0.1); 
+    text-align: center; /* Centrer le texte dans le li */
   }
   
   .nav-links li:last-child {
       border-bottom: none; 
       padding-top: 0.5rem; 
+      padding-bottom: 0.5rem;
   }
 
   .nav-links a,
   .nav-links .btn {
     display: block; 
     width: 100%;
-    padding: 0.8rem 1.2rem; 
-    font-size: 0.95rem; 
+    padding: 0.7rem 1.2rem; 
+    font-size: 1.05rem; 
     font-weight: 500;
     color: var(--text);
-    text-align: left; 
+    text-align: center; 
     background: transparent;
     border: none;
   }
@@ -1018,11 +1021,10 @@ body {
   /* Style du bouton Contact dans le menu mobile (le dernier li) */
   .nav-links li:last-child a { 
       margin-top: 0;
-      /* On s'assure qu'il est en couleur Accent et non pas comme un bouton primaire complet */
       background: transparent !important; 
       color: var(--accent) !important;
       font-weight: 600;
   }
 
-  /* Le theme-toggle est déjà bien positionné dans le header-inner, il n'est pas dans le nav-links sur mobile */
+  /* Le theme-toggle est déjà dans le header-inner, nous n'avons pas besoin de le modifier ici */
 }
