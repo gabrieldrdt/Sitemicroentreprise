@@ -1,6 +1,31 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   /* -----------------------------------------
+     MODALE OFFRE DE LANCEMENT (DÉBUT)
+     Correction: Affiche uniquement si non déjà vue (localStorage)
+  ------------------------------------------*/
+  const launchModal = document.getElementById('launchModal');
+  const closeLaunchModalBtn = document.getElementById('closeLaunchModal');
+  const acceptLaunchOfferLink = document.getElementById('acceptLaunchOffer');
+
+  if (launchModal && !localStorage.getItem('launchModalShown')) {
+    // Afficher la modale au chargement
+    launchModal.classList.remove('hidden');
+
+    const hideModal = () => {
+        launchModal.classList.add('hidden');
+        localStorage.setItem('launchModalShown', 'true'); // Mémoriser l'action
+    };
+
+    // Fermeture via le bouton 'Fermer'
+    closeLaunchModalBtn?.addEventListener('click', hideModal);
+
+    // Fermeture via le bouton d'action 'Je saisis l'opportunité'
+    acceptLaunchOfferLink?.addEventListener('click', hideModal);
+  }
+
+
+  /* -----------------------------------------
      ANNÉE FOOTER
   ------------------------------------------*/
   const yearSpan = document.getElementById("year");
@@ -200,30 +225,6 @@ document.addEventListener("DOMContentLoaded", () => {
       dashboardBtn?.classList.add("hidden");
       dashboardSection?.classList.add("hidden");
       alert("Déconnexion effectuée.");
-    });
-  }
-  
-  /* -----------------------------------------
-     MODALE OFFRE DE LANCEMENT (Ajout)
-  ------------------------------------------*/
-  const launchModal = document.getElementById('launchModal');
-  const closeLaunchModalBtn = document.getElementById('closeLaunchModal');
-  const acceptLaunchOfferLink = document.getElementById('acceptLaunchOffer');
-
-  if (launchModal) {
-    // Afficher la modale au chargement (enlever la classe 'hidden' dans le HTML pour l'affichage initial)
-    // NOTE: La classe 'hidden' est laissée dans le HTML pour éviter un flash, elle est retirée ici pour l'affichage
-    launchModal.classList.remove('hidden');
-
-    // Fermeture via le bouton 'Fermer'
-    closeLaunchModalBtn?.addEventListener('click', function() {
-        launchModal.classList.add('hidden');
-    });
-
-    // Fermeture via le bouton d'action 'Je saisis l'opportunité' (et redirection vers Contact)
-    acceptLaunchOfferLink?.addEventListener('click', function(event) {
-        launchModal.classList.add('hidden');
-        // Le scroll vers #contact est géré par la fonction SCROLL SMOOTH
     });
   }
 });
