@@ -858,7 +858,7 @@ body {
 
 /* LAUNCH MODAL SPECIFIC STYLES */
 .launch-modal .modal-content {
-    background: var(--card); /* Utilise la couleur de fond de carte existante */
+    background: var(--card); 
     max-width: 450px;
     padding: 2.5rem 2rem;
     border: 1px solid var(--accent);
@@ -872,7 +872,7 @@ body {
 }
 
 .launch-modal .launch-advantages {
-    background-color: var(--bg); /* Pour le mode sombre, le fond est plus foncé */
+    background-color: var(--bg); 
     border-radius: var(--radius-md);
     padding: 1.2rem;
     margin: 1.5rem 0;
@@ -894,13 +894,13 @@ body {
 }
 
 .light .launch-modal .launch-advantages {
-  background-color: var(--bg); /* Fond clair pour le mode light */
+  background-color: var(--bg); 
   border: 1px solid var(--border);
 }
 
 /* Espacement entre les deux boutons de la modale */
 .launch-modal .btn-primary {
-    margin-bottom: 0.8rem; /* Ajout d'une marge sous le bouton principal */
+    margin-bottom: 0.8rem; 
 }
 
 /* LIGHT MODE HEADER & SOCIALS */
@@ -941,18 +941,18 @@ body {
   }
 
   .nav-links {
-    position: fixed; /* Utiliser fixed pour couvrir tout le viewport */
+    position: fixed; 
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%; /* Couvrir toute la hauteur */
+    height: 100%; 
     background: var(--bg);
     border-bottom: none;
     flex-direction: column;
-    justify-content: center; /* Centrer verticalement */
-    align-items: center; /* Centrer horizontalement */
+    justify-content: center; 
+    align-items: center; 
     padding: 2rem 1.2rem;
-    transform: translateX(100%); /* Masquer hors de l'écran */
+    transform: translateX(100%); 
     opacity: 0;
     pointer-events: none;
     transition: transform 0.3s ease-out, opacity 0.3s ease-out;
@@ -965,15 +965,15 @@ body {
   }
   
   .nav-links li {
-    margin-bottom: 1.2rem; /* Espacement entre les liens */
+    margin-bottom: 1.2rem; 
   }
 
   .nav-links a,
   .nav-links .btn {
     width: 100%;
-    padding: 0.8rem 1.5rem; /* Augmenter la zone de clic */
+    padding: 0.8rem 1.5rem; 
     text-align: center;
-    font-size: 1.1rem; /* Rendre le texte plus grand */
+    font-size: 1.1rem; 
   }
 
   /* Cache les icônes de thème dans le menu ouvert si non nécessaires */

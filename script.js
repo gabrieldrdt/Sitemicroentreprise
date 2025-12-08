@@ -2,25 +2,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* -----------------------------------------
      MODALE OFFRE DE LANCEMENT (DÉBUT)
-     Correction: Affiche immédiatement, puis se cache si déjà vue (localStorage)
   ------------------------------------------*/
   const launchModal = document.getElementById('launchModal');
   const closeLaunchModalBtn = document.getElementById('closeLaunchModal');
   const acceptLaunchOfferLink = document.getElementById('acceptLaunchOffer');
+
+  // Fonction centrale pour masquer la modale et enregistrer l'action
+  const hideModal = () => {
+    if (launchModal) {
+        launchModal.classList.add('hidden');
+        localStorage.setItem('launchModalShown', 'true'); // Mémoriser l'action
+    }
+  };
 
   if (launchModal) {
     if (localStorage.getItem('launchModalShown') === 'true') {
         launchModal.classList.add('hidden'); // Cacher si déjà vue
     }
 
-    const hideModal = () => {
-        launchModal.classList.add('hidden');
-        localStorage.setItem('launchModalShown', 'true'); // Mémoriser l'action
-    };
-
-    // Fermeture via les boutons
+    // Assignation des écouteurs d'événements
     closeLaunchModalBtn?.addEventListener('click', hideModal);
-    acceptLaunchOfferLink?.addEventListener('click', hideModal);
+    
+    // Le lien d'acceptation doit se fermer ET suivre le lien #contact
+    acceptLaunchOfferLink?.addEventListener('click', function(event) {
+        hideModal(); 
+        // Laisse l'action par défaut du lien href="#contact" se dérouler 
+        // pour que le scroll smooth fonctionne (géré plus bas)
+    });
   }
 
 
