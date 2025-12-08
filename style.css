@@ -90,6 +90,11 @@ body {
   border-bottom: 1px solid rgba(30, 64, 175, 0.3);
 }
 
+.light .site-header {
+  background: rgba(255, 255, 255, 0.9);
+  border-bottom: 1px solid var(--border);
+}
+
 .header-inner {
   display: flex;
   align-items: center;
@@ -214,7 +219,6 @@ body {
 
 .light .theme-toggle .icon-sun { display: inline-block; }
 .light .theme-toggle .icon-moon { display: none; }
-
 
 /* BUTTONS */
 .btn {
@@ -648,6 +652,15 @@ body {
   transform: translateY(-1px);
 }
 
+.light .social-links a {
+  background: var(--bg-alt);
+  border-color: var(--border);
+}
+
+.light .social-links a:hover {
+  color: var(--accent);
+}
+
 /* CONTACT FORM */
 .contact-form {
   background: radial-gradient(circle at top, rgba(59, 130, 246, 0.22), #020617);
@@ -858,39 +871,39 @@ body {
 
 /* LAUNCH MODAL SPECIFIC STYLES */
 .launch-modal .modal-content {
-    background: var(--card); 
-    max-width: 450px;
-    padding: 2.5rem 2rem;
-    border: 1px solid var(--accent);
-    text-align: center; 
+  background: var(--card); 
+  max-width: 450px;
+  padding: 2.5rem 2rem;
+  border: 1px solid var(--accent);
+  text-align: center; 
 }
 
 .launch-modal .launch-subtitle {
-    font-weight: 500;
-    color: var(--muted);
-    margin-top: 0.5rem;
+  font-weight: 500;
+  color: var(--muted);
+  margin-top: 0.5rem;
 }
 
 .launch-modal .launch-advantages {
-    background-color: var(--bg); 
-    border-radius: var(--radius-md);
-    padding: 1.2rem;
-    margin: 1.5rem 0;
-    text-align: left;
-    border: 1px solid var(--border);
+  background-color: var(--bg); 
+  border-radius: var(--radius-md);
+  padding: 1.2rem;
+  margin: 1.5rem 0;
+  text-align: left;
+  border: 1px solid var(--border);
 }
 
 .launch-modal .launch-advantages p {
-    margin: 0.5rem 0;
-    font-weight: 600;
-    color: var(--text);
+  margin: 0.5rem 0;
+  font-weight: 600;
+  color: var(--text);
 }
 
 .launch-modal .launch-text {
-    margin-bottom: 2rem;
-    font-size: 0.9rem;
-    line-height: 1.5;
-    color: var(--muted);
+  margin-bottom: 2rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--muted);
 }
 
 .light .launch-modal .launch-advantages {
@@ -900,7 +913,7 @@ body {
 
 /* Espacement entre les deux boutons de la modale */
 .launch-modal .btn-primary {
-    margin-bottom: 0.8rem; 
+  margin-bottom: 0.8rem; 
 }
 
 /* LIGHT MODE HEADER & SOCIALS */
@@ -1014,5 +1027,105 @@ body {
   .theme-toggle {
       display: flex; /* Rendre le toggle visible */
       margin-left: 0.75rem; 
+  }
+}
+
+/* ========================= */
+/*      GOOGLE REVIEWS       */
+/* ========================= */
+
+.reviews-wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.review-card {
+  background: var(--card);
+  padding: 1.6rem;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px var(--shadow);
+  transition: transform .3s ease, box-shadow .3s ease;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.review-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px var(--shadow);
+}
+
+.review-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: .8rem;
+}
+
+.review-photo {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--accent);
+}
+
+.review-author {
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.review-rating {
+  margin: .4rem 0 1rem;
+  color: #e3b505;
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+}
+
+.review-text {
+  line-height: 1.6;
+  opacity: .9;
+}
+
+.google-link {
+  display: inline-block;
+  margin: 2rem auto 0;
+  padding: .8rem 1.6rem;
+  background: var(--primary);
+  color: white;
+  border-radius: 10px;
+  font-weight: 600;
+  text-align: center;
+  transition: .3s;
+}
+
+.google-link:hover {
+  background: var(--accent);
+}
+
+/* Mobile slide */
+@media (max-width: 700px) {
+  .reviews-wrapper {
+    display: flex;
+    overflow-x: auto;
+    gap: 1.2rem;
+    padding-bottom: 1rem;
+    scroll-snap-type: x mandatory;
+  }
+
+  .review-card {
+    min-width: 80%;
+    scroll-snap-align: start;
+  }
+}
+
+/* Animation hamburger -> croix sur mobile */
+@media (max-width: 768px) {
+  .nav-toggle.active .bar:nth-child(1) {
+    transform: translateY(4px) rotate(45deg);
+  }
+  .nav-toggle.active .bar:nth-child(2) {
+    transform: translateY(-4px) rotate(-45deg);
   }
 }
