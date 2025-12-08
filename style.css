@@ -939,25 +939,25 @@ body {
   .nav-toggle {
     display: block;
   }
+  
+  /* Permettre au conteneur de navigation d'être le parent pour le positionnement absolu */
+  .main-nav {
+      position: relative; 
+  }
 
   .nav-links {
-    /* Positionnement en dessous du header */
+    /* Positionnement sous le header */
     position: absolute; 
     top: 100%; /* S'aligne parfaitement sous le header */
     left: 0;
     width: 100%;
-    /* Hauteur auto pour ne pas masquer le contenu restant sous le menu */
     height: auto; 
     
     /* Style du panneau de navigation */
-    background: var(--bg-alt); /* Fond clair sur light, fond alt sur dark */
+    background: var(--bg-alt); 
     box-shadow: 0 8px 10px rgba(0, 0, 0, 0.2);
     border-bottom: 1px solid var(--border);
-
-    /* Affichage des liens */
-    flex-direction: column;
-    align-items: flex-start; /* Aligner les liens à gauche */
-    padding: 0.5rem 0; /* Padding vertical */
+    padding: 0.5rem 0; 
     
     /* Animation de glissement */
     transform: translateY(-100%); /* Masquer au-dessus du header */
@@ -973,44 +973,46 @@ body {
   }
   
   .nav-links li {
-    width: 100%; /* Les liens prennent toute la largeur du menu */
-    margin-bottom: 0; /* Pas de marge entre les liens */
-    border-bottom: 1px solid rgba(148, 163, 184, 0.1); /* Ligne de séparation fine */
+    width: 100%; 
+    margin-bottom: 0; 
+    border-bottom: 1px solid rgba(148, 163, 184, 0.1); 
   }
   
   .nav-links li:last-child {
-      border-bottom: none; /* Pas de ligne de séparation sous le dernier élément */
+      border-bottom: none; 
+      /* Ajout d'une marge top pour séparer le bouton du reste des liens */
+      padding-top: 0.5rem; 
   }
 
   .nav-links a,
   .nav-links .btn {
-    display: block; /* S'assurer que le lien remplisse le <li> */
+    display: block; 
     width: 100%;
-    padding: 0.8rem 1.2rem; /* Espacement du lien */
+    padding: 0.8rem 1.2rem; 
     font-size: 0.95rem; 
     font-weight: 500;
     color: var(--text);
-    text-align: left; /* Aligner le texte à gauche */
+    text-align: left; 
     background: transparent;
     border: none;
   }
 
   .nav-links a:hover {
-      background: var(--accent-soft); /* Survol plus visible */
+      background: var(--accent-soft); 
       color: var(--accent);
   }
 
   /* Style du bouton Contact dans le menu mobile */
   .nav-links li:last-child a { 
       margin-top: 0;
-      /* Style du bouton primaire désactivé ici pour qu'il ressemble à un lien de menu */
       background: transparent !important; 
       color: var(--accent) !important;
       font-weight: 600;
   }
-  
-  /* Retirer le thème toggle (il n'est pas nécessaire dans le menu) */
+
+  /* Afficher le thème toggle sur mobile */
   .theme-toggle {
-      display: none;
+      display: flex; /* Rendre le toggle visible */
+      margin-left: 0.75rem; 
   }
 }
