@@ -965,16 +965,16 @@ body {
   }
   
   .nav-links li {
-    margin-bottom: 1.5rem; /* Augmentation de l'espacement pour la clarté */
-    width: 80%; /* Pour donner plus de structure */
+    margin-bottom: 1.5rem; 
+    width: 80%; 
     text-align: center;
   }
 
   .nav-links a,
   .nav-links .btn {
     width: 100%;
-    padding: 0.9rem 1.5rem; /* Augmentation de la zone de clic */
-    font-size: 1.15rem; /* Rendre le texte plus grand */
+    padding: 0.9rem 1.5rem; 
+    font-size: 1.15rem; 
     font-weight: 500;
     color: var(--text);
   }

@@ -1,36 +1,30 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   /* -----------------------------------------
-     MODALE OFFRE DE LANCEMENT (DÉBUT)
-     Correction: Affiche immédiatement, puis se cache si déjà vue (localStorage)
+     MODALE OFFRE DE LANCEMENT (AU CLIC)
   ------------------------------------------*/
   const launchModal = document.getElementById('launchModal');
-  
-  // Fonction centrale pour masquer la modale et enregistrer l'action
+  const openLaunchOfferBtn = document.getElementById('openLaunchOffer');
+  const closeLaunchModalBtn = document.getElementById('closeLaunchModal');
+  const acceptLaunchOfferLink = document.getElementById('acceptLaunchOffer');
+
+  // Fonction centrale pour masquer la modale
   const hideLaunchModal = () => {
     if (launchModal) {
         launchModal.classList.add('hidden');
-        localStorage.setItem('launchModalShown', 'true'); // Mémoriser l'action
     }
   };
 
-  if (launchModal) {
-    if (localStorage.getItem('launchModalShown') === 'true') {
-        launchModal.classList.add('hidden'); // Cacher si déjà vue
-    }
+  // 1. Ouvre la modale
+  openLaunchOfferBtn?.addEventListener('click', () => {
+      launchModal?.classList.remove('hidden');
+  });
 
-    const closeLaunchModalBtn = document.getElementById('closeLaunchModal');
-    const acceptLaunchOfferLink = document.getElementById('acceptLaunchOffer');
+  // 2. Fermeture via le bouton 'Fermer'
+  closeLaunchModalBtn?.addEventListener('click', hideLaunchModal);
 
-    // Assignation des écouteurs d'événements
-    closeLaunchModalBtn?.addEventListener('click', hideLaunchModal);
-    
-    // Le lien d'acceptation doit se fermer ET suivre le lien #contact
-    acceptLaunchOfferLink?.addEventListener('click', function(event) {
-        hideLaunchModal(); 
-        // Le scroll vers #contact est géré par la fonction SCROLL SMOOTH (plus bas)
-    });
-  }
+  // 3. Fermeture via le bouton d'action 'Je saisis l'opportunité' (et suit le lien #contact)
+  acceptLaunchOfferLink?.addEventListener('click', hideLaunchModal);
 
 
   /* -----------------------------------------
