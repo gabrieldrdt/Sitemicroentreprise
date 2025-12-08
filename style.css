@@ -788,7 +788,7 @@ body {
   color: var(--accent);
 }
 
-/* MODAL (ADMIN LOGIN) */
+/* MODAL (ADMIN LOGIN & LAUNCH) */
 .modal {
   position: fixed;
   inset: 0;
@@ -854,6 +854,58 @@ body {
     opacity: 1;
     transform: scale(1);
   }
+}
+
+/* LAUNCH MODAL SPECIFIC STYLES */
+.launch-modal .modal-content {
+    background: var(--card); /* Utilise la couleur de fond de carte existante */
+    max-width: 450px;
+    padding: 2.5rem 2rem;
+    border: 1px solid var(--accent);
+}
+
+.launch-modal .launch-subtitle {
+    font-weight: 500;
+    color: var(--muted);
+    margin-top: 0.5rem;
+}
+
+.launch-modal .launch-advantages {
+    background-color: var(--bg); /* Pour le mode sombre, le fond est plus foncé */
+    border-radius: var(--radius-md);
+    padding: 1.2rem;
+    margin: 1.5rem 0;
+    text-align: left;
+    border: 1px solid var(--border);
+}
+
+.launch-modal .launch-advantages p {
+    margin: 0.5rem 0;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.launch-modal .launch-text {
+    margin-bottom: 2rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--muted);
+}
+
+.light .launch-modal .launch-advantages {
+  background-color: var(--bg); /* Fond clair pour le mode light */
+  border: 1px solid var(--border);
+}
+
+/* Espacement entre les deux boutons de la modale */
+.launch-modal .btn-primary {
+    margin-bottom: 0.8rem; /* Ajout d'une marge sous le bouton principal */
+}
+
+/* Assurer la cohérence du centrage */
+.launch-modal .modal-content {
+    /* ... autres styles ... */
+    text-align: center; /* Assure que tout est bien centré */
 }
 
 /* LIGHT MODE HEADER & SOCIALS */
