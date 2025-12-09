@@ -1,15 +1,30 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+  // =========================================================================
+  // IDENTIFIANTS EMAILJS (FINAL)
+  // =========================================================================
+  const EMAILJS_PUBLIC_KEY = "Y3AsrL_V0Gt9d6ea4"; 
+  const SERVICE_ID = "service_v5me3zv"; 
+  const TEMPLATE_ID = "template_rultwzc"; 
+
+  
+  if (typeof emailjs !== 'undefined' && EMAILJS_PUBLIC_KEY.length > 0) {
+      emailjs.init(EMAILJS_PUBLIC_KEY);
+  } else if (typeof emailjs !== 'undefined') {
+      console.warn("EmailJS est chargé, mais la clé publique n'est pas configurée dans script.js.");
+  } else {
+      console.error("EmailJS SDK non chargé. Vérifiez l'inclusion dans index.html.");
+  }
+
+
   /* -----------------------------------------
      MODALE OFFRE DE LANCEMENT (AU CLIC)
-     Correction: Logique simplifiée pour ouvrir/fermer au clic du bouton.
   ------------------------------------------*/
   const launchModal = document.getElementById('launchModal');
   const openLaunchOfferBtn = document.getElementById('openLaunchOffer');
   const closeLaunchModalBtn = document.getElementById('closeLaunchModal');
   const acceptLaunchOfferLink = document.getElementById('acceptLaunchOffer');
 
-  // Fonction centrale pour masquer la modale
   const hideLaunchModal = () => {
     if (launchModal) {
         launchModal.classList.add('hidden');
@@ -23,10 +38,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // 2. Fermeture via le bouton 'Fermer'
+  // 2. Fermeture via les boutons (Correction: devrait maintenant fonctionner)
   closeLaunchModalBtn?.addEventListener('click', hideLaunchModal);
-
-  // 3. Fermeture via le bouton d'action 'Je saisis l'opportunité' (et suit le lien #contact)
   acceptLaunchOfferLink?.addEventListener('click', hideLaunchModal);
 
 
@@ -86,18 +99,69 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   /* -----------------------------------------
-     API CONFIG
+     FORMULAIRE CONTACT (EMAILJS)
+  ------------------------------------------*/
+  const contactForm = document.getElementById("contact-form");
+  const formStatus = document.getElementById("form-status");
+
+  if (contactForm && typeof emailjs !== 'undefined') {
+    contactForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      // Vérification des identifiants (double sécurité)
+      if (EMAILJS_PUBLIC_KEY === "VOTRE_PUBLIC_KEY" || SERVICE_ID === "VOTRE_SERVICE_ID" || TEMPLATE_ID === "VOTRE_TEMPLATE_ID") {
+          formStatus.textContent = "Erreur: Identifiants EmailJS manquants ou incorrects ❌";
+          formStatus.style.color = "salmon";
+          return;
+      }
+
+      formStatus.textContent = "Envoi en cours...";
+      formStatus.style.color = "var(--accent)";
+
+      // Récupération des données du formulaire (DOIVENT matcher les variables du Template EmailJS)
+      const templateParams = {
+          from_name: document.getElementById("name").value,
+          from_email: document.getElementById("email").value,
+          project_type: document.getElementById("projectType").value,
+          budget: document.getElementById("budget").value,
+          message: document.getElementById("message").value
+      };
+
+      try {
+        const res = await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams);
+
+        if (res.status === 200) {
+          formStatus.textContent = "Message envoyé avec succès ! ✔️";
+          formStatus.style.color = "lightgreen";
+          contactForm.reset();
+        } else {
+          throw new Error("Erreur de statut EmailJS: " + res.text);
+        }
+
+      } catch (err) {
+        console.error("Erreur d'envoi EmailJS:", err);
+        formStatus.textContent = "Échec de l'envoi ❌. (Vérifiez les IDs et votre clé publique)";
+        formStatus.style.color = "salmon";
+      }
+
+      setTimeout(() => formStatus.textContent = "", 6000);
+    });
+  } else if (contactForm) {
+      contactForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          formStatus.textContent = "Erreur: EmailJS n'est pas chargé (vérifiez index.html)";
+          formStatus.style.color = "salmon";
+      });
+  }
+
+  /* -----------------------------------------
+     LOGIQUE DU DASHBOARD ADMIN (conservée)
   ------------------------------------------*/
   const API = "https://gabriel-durand-touya.onrender.com/api";
 
   const statVisitors = document.getElementById("statVisitors");
   const statViews = document.getElementById("statViews");
-  const statForms = document.getElementById("formStatus"); // Correction ici, il faut cibler le bon ID
-
-
-  /* -----------------------------------------
-     CHARGER LES STATISTIQUES
-  ------------------------------------------*/
+  
   async function loadStats() {
     try {
       const res = await fetch(`${API}/stats.php`);
@@ -106,22 +170,19 @@ document.addEventListener("DOMContentLoaded", () => {
       if (data.success && data.stats) {
         if (statVisitors) statVisitors.textContent = data.stats.visitors;
         if (statViews) statViews.textContent = data.stats.views;
-        // Correction de la cible
         const statFormsElement = document.getElementById("statForms");
         if (statFormsElement) statFormsElement.textContent = data.stats.forms;
       }
-
     } catch (err) {
       console.error("Erreur stats:", err);
     }
   }
 
-  loadStats();
+  if (localStorage.getItem("adminLogged") === "true") {
+       loadStats();
+  }
 
 
-  /* -----------------------------------------
-     LOGIN ADMIN
-  ------------------------------------------*/
   const adminLoginBtn = document.getElementById("adminLoginBtn");
   const loginModal = document.getElementById("loginModal");
   const closeModal = document.getElementById("closeModal");
@@ -159,7 +220,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (data.success) {
           loginStatus.textContent = "Connexion réussie ✔️";
-          loginStatus.style.color = "lightgreen";
 
           localStorage.setItem("adminLogged", "true");
 
@@ -170,55 +230,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
         } else {
           loginStatus.textContent = data.message;
-          loginStatus.style.color = "salmon";
         }
 
       } catch (err) {
         loginStatus.textContent = "Erreur serveur ❌";
-        loginStatus.style.color = "red";
       }
+      loginStatus.style.color = "salmon"; // Mettre en rouge l'erreur
     });
   }
 
   if (localStorage.getItem("adminLogged") === "true") {
     dashboardBtn?.classList.remove("hidden");
     dashboardSection?.classList.add("hidden");
-  }
-
-
-  /* -----------------------------------------
-     FORMULAIRE CONTACT
-  ------------------------------------------*/
-  const contactForm = document.getElementById("contact-form");
-  const formStatus = document.getElementById("form-status");
-
-  if (contactForm) {
-    contactForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      formStatus.textContent = "Envoi...";
-      formStatus.style.color = "var(--accent)";
-
-      try {
-        // Utilisation de increment.php en GET
-        const res = await fetch(`${API}/increment.php?type=forms`);
-        const data = await res.json();
-
-        if (data.success) {
-          formStatus.textContent = "Message envoyé ✔️";
-          formStatus.style.color = "lightgreen";
-
-          loadStats();
-          contactForm.reset();
-
-          setTimeout(() => formStatus.textContent = "", 3000);
-        }
-
-      } catch (err) {
-        formStatus.textContent = "Erreur d'envoi ❌";
-        formStatus.style.color = "salmon";
-      }
-    });
   }
 
 
