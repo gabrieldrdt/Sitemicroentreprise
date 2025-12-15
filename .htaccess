@@ -1,0 +1,8 @@
+# Activer PHP
+AddHandler application/x-httpd-php .php
+
+# Si ça ne marche pas, essayez :
+AddType application/x-httpd-php .php
+
+# Ou pour PHP 8 :
+AddHandler x-httpd-php8 .php
