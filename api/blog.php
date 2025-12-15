@@ -2,7 +2,7 @@
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=utf-8");
 
-// Source “bien cotée” : Hugging Face Blog (RSS)
+// Source "bien cotée" : Hugging Face Blog (RSS)
 $feedUrl = "https://huggingface.co/blog/feed.xml";
 
 // Paramètres
@@ -27,7 +27,7 @@ if (file_exists($cacheFile) && (time() - filemtime($cacheFile) < $cacheTtlSecond
     if (isset($cached["items"]) && is_array($cached["items"])) {
       $cached["items"] = array_slice($cached["items"], 0, $limit);
     }
-    echo json_encode($cached);
+    echo json_encode($cached, JSON_UNESCAPED_UNICODE);
     exit;
   }
 }
@@ -43,7 +43,7 @@ $ctx = stream_context_create([
 $xmlStr = @file_get_contents($feedUrl, false, $ctx);
 if ($xmlStr === false) {
   http_response_code(502);
-  echo json_encode(["success" => false, "message" => "Impossible de récupérer le flux RSS"]);
+  echo json_encode(["success" => false, "message" => "Impossible de récupérer le flux RSS"], JSON_UNESCAPED_UNICODE);
   exit;
 }
 
@@ -51,7 +51,7 @@ libxml_use_internal_errors(true);
 $xml = simplexml_load_string($xmlStr, "SimpleXMLElement", LIBXML_NOCDATA);
 if ($xml === false) {
   http_response_code(502);
-  echo json_encode(["success" => false, "message" => "Flux RSS invalide"]);
+  echo json_encode(["success" => false, "message" => "Flux RSS invalide"], JSON_UNESCAPED_UNICODE);
   exit;
 }
 
