@@ -1,20 +1,19 @@
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("script chargé");
 
-  /* =========================================================
-     CONFIG API
-  ========================================================= */
+  /* ===============================
+     CONFIG
+  =============================== */
   const API = "/api";
 
-  /* =========================================================
-     ANNÉE FOOTER
-  ========================================================= */
+  /* ===============================
+     FOOTER YEAR
+  =============================== */
   const yearSpan = document.getElementById("year");
   if (yearSpan) yearSpan.textContent = new Date().getFullYear();
 
-  /* =========================================================
-     THÈME LIGHT / DARK
-  ========================================================= */
+  /* ===============================
+     THEME LIGHT / DARK
+  =============================== */
   const themeSwitch = document.getElementById("themeSwitch");
   const root = document.documentElement;
 
@@ -28,9 +27,9 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("theme", themeSwitch.checked ? "light" : "dark");
   });
 
-  /* =========================================================
+  /* ===============================
      VEILLE IA (BLOG)
-  ========================================================= */
+  =============================== */
   const blogGrid = document.getElementById("blogGrid");
   const blogStatus = document.getElementById("blogStatus");
 
@@ -38,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!blogGrid) return;
 
     try {
-      blogStatus && (blogStatus.textContent = "Chargement…");
+      blogStatus.textContent = "Chargement…";
 
       const res = await fetch(`${API}/blog.php`);
       const items = await res.json();
@@ -46,74 +45,72 @@ document.addEventListener("DOMContentLoaded", () => {
       blogGrid.innerHTML = "";
 
       if (!Array.isArray(items) || items.length === 0) {
-        blogStatus && (blogStatus.textContent = "Aucun article disponible.");
+        blogStatus.textContent = "Aucun article disponible.";
         return;
       }
 
       items.forEach(it => {
-        const card = document.createElement("article");
-        card.className = "project-card blog-card";
-        card.innerHTML = `
-          <span class="project-tag">Hugging Face</span>
-          <h3>${it.title}</h3>
-          <a class="btn btn-ghost btn-small" href="${it.link}" target="_blank">
-            Lire l’article
-          </a>
+        blogGrid.innerHTML += `
+          <article class="project-card blog-card">
+            <span class="project-tag">Hugging Face</span>
+            <h3>${it.title}</h3>
+            <a class="btn btn-ghost btn-small" href="${it.link}" target="_blank" rel="noopener">
+              Lire l’article
+            </a>
+          </article>
         `;
-        blogGrid.appendChild(card);
       });
 
-      blogStatus && (blogStatus.textContent = "");
+      blogStatus.textContent = "";
 
     } catch (err) {
       console.error("Erreur blog :", err);
-      blogStatus && (blogStatus.textContent = "Erreur de chargement.");
+      blogStatus.textContent = "Erreur de chargement.";
     }
   }
 
   loadBlog();
 
-  /* =========================================================
+  /* ===============================
      LOGIN ADMIN
-  ========================================================= */
+  =============================== */
   const adminLoginBtn = document.getElementById("adminLoginBtn");
   const loginModal = document.getElementById("loginModal");
   const closeModal = document.getElementById("closeModal");
   const adminLoginForm = document.getElementById("adminLoginForm");
   const loginStatus = document.getElementById("loginStatus");
-  const dashboardSection = document.getElementById("dashboard");
+  const dashboard = document.getElementById("dashboard");
+  const dashboardBtn = document.getElementById("dashboardBtn");
   const logoutBtn = document.getElementById("logoutBtn");
 
-  adminLoginBtn?.addEventListener("click", () => {
-    loginModal?.classList.remove("hidden");
-  });
-
-  closeModal?.addEventListener("click", () => {
-    loginModal?.classList.add("hidden");
-    loginStatus.textContent = "";
-  });
+  adminLoginBtn?.addEventListener("click", () => loginModal.classList.remove("hidden"));
+  closeModal?.addEventListener("click", () => loginModal.classList.add("hidden"));
 
   adminLoginForm?.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const username = document.getElementById("loginEmail").value;
-    const password = document.getElementById("loginPassword").value;
+    const email = loginEmail.value.trim();
+    const password = loginPassword.value;
+
+    loginStatus.textContent = "Connexion…";
 
     try {
       const res = await fetch(`${API}/login.php`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password })
+        body: JSON.stringify({ email, password })
       });
 
       const data = await res.json();
 
       if (data.success) {
         localStorage.setItem("adminLogged", "true");
-        dashboardSection?.classList.remove("hidden");
-        loginModal?.classList.add("hidden");
+        dashboard.classList.remove("hidden");
+        dashboardBtn.classList.remove("hidden");
+        loginModal.classList.add("hidden");
+        loginStatus.textContent = "";
       } else {
-        loginStatus.textContent = "Identifiants incorrects";
+        loginStatus.textContent = data.message || "Accès refusé";
       }
     } catch {
       loginStatus.textContent = "Erreur serveur";
@@ -121,12 +118,15 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   if (localStorage.getItem("adminLogged") === "true") {
-    dashboardSection?.classList.remove("hidden");
+    dashboard.classList.remove("hidden");
+    dashboardBtn.classList.remove("hidden");
   }
 
   logoutBtn?.addEventListener("click", () => {
     localStorage.removeItem("adminLogged");
-    dashboardSection?.classList.add("hidden");
+    dashboard.classList.add("hidden");
+    dashboardBtn.classList.add("hidden");
     alert("Déconnecté");
   });
+
 });
