@@ -15,4 +15,3 @@ ENV PORT=10000
 
 # Instruction de démarrage dynamique
 CMD ["php", "-S", "0.0.0.0:10000", "-t", "/var/www/html"]
-

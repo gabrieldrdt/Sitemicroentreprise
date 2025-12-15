@@ -27,6 +27,7 @@
         <ul class="nav-links">
           <li><a href="#home">Accueil</a></li>
           <li><a href="#services">Services</a></li>
+          <li><a href="#ai">Veille IA</a></li>
           <li><a href="#portfolio">Portfolio</a></li>
           <li><a href="#about">À propos</a></li>
           <li><a href="#dashboard" id="dashboardBtn" class="dashboard-btn hidden">Dashboard</a></li>
@@ -138,6 +139,18 @@
         </div>
     </div>
 </section>
+
+    <section id="ai" class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Veille IA</h2>
+          <p>Une sélection d’articles issus de sources IA reconnues (extraits + lien vers la source).</p>
+        </div>
+
+        <div id="blogGrid" class="grid grid-3"></div>
+        <p id="blogStatus" class="blog-status" aria-live="polite"></p>
+      </div>
+    </section>
 
 
     <section id="about" class="section section-alt">
@@ -258,6 +271,9 @@
           <div class="stat-card"><h3>Visiteurs</h3><p id="statVisitors">0</p></div>
           <div class="stat-card"><h3>Pages vues</h3><p id="statViews">0</p></div>
           <div class="stat-card"><h3>Formulaires reçus</h3><p id="statForms">0</p></div>
+          <div class="stat-card"><h3>GA4 utilisateurs (30j)</h3><p id="statGaUsers">—</p></div>
+          <div class="stat-card"><h3>GA4 sessions (30j)</h3><p id="statGaSessions">—</p></div>
+          <div class="stat-card"><h3>GA4 pages vues (30j)</h3><p id="statGaViews">—</p></div>
         </div>
 
         <button id="logoutBtn" class="btn btn-ghost">Se déconnecter</button>

@@ -159,6 +159,51 @@ document.addEventListener("DOMContentLoaded", () => {
   ------------------------------------------*/
   const API = "https://gabriel-durand-touya.onrender.com/api";
 
+  /* -----------------------------------------
+     BLOG IA (RSS -> API)
+  ------------------------------------------*/
+  const blogGrid = document.getElementById("blogGrid");
+  const blogStatus = document.getElementById("blogStatus");
+
+  async function loadBlog() {
+    if (!blogGrid) return;
+    try {
+      if (blogStatus) blogStatus.textContent = "Chargement des articles…";
+      const res = await fetch(`${API}/blog.php?limit=6`);
+      const data = await res.json();
+
+      if (!data.success) {
+        if (blogStatus) blogStatus.textContent = data.message || "Impossible de charger le blog.";
+        return;
+      }
+
+      blogGrid.innerHTML = (data.items || []).map((it) => {
+        const date = it.date ? new Date(it.date).toLocaleDateString("fr-FR") : "";
+        const safeTitle = (it.title || "").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        const safeSummary = (it.summary || "").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        const safeUrl = it.url || "#";
+        const safeSource = (it.source || "Source").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+        return `
+          <article class="project-card blog-card">
+            <span class="project-tag">${safeSource}${date ? " • " + date : ""}</span>
+            <h3>${safeTitle}</h3>
+            <p>${safeSummary}</p>
+            <a class="btn btn-ghost btn-small" href="${safeUrl}" target="_blank" rel="noopener noreferrer">Lire l’article</a>
+          </article>
+        `;
+      }).join("");
+
+      if (blogStatus) blogStatus.textContent = "";
+    } catch (err) {
+      console.error("Erreur blog:", err);
+      if (blogStatus) blogStatus.textContent = "Erreur lors du chargement des articles.";
+    }
+  }
+
+  loadBlog();
+
+
   const statVisitors = document.getElementById("statVisitors");
   const statViews = document.getElementById("statViews");
   
@@ -183,6 +228,41 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
+<<<<<<< HEAD
+=======
+  /* -----------------------------------------
+     ANALYTICS GA4 (optionnel)
+  ------------------------------------------*/
+  const gaUsersEl = document.getElementById("statGaUsers");
+  const gaSessionsEl = document.getElementById("statGaSessions");
+  const gaViewsEl = document.getElementById("statGaViews");
+
+  async function loadAnalytics() {
+    if (!gaUsersEl && !gaSessionsEl && !gaViewsEl) return;
+
+    try {
+      const res = await fetch(`${API}/analytics.php?days=30`);
+      const data = await res.json();
+
+      if (!data.success) return;
+
+      if (gaUsersEl) gaUsersEl.textContent = data.metrics.activeUsers ?? 0;
+      if (gaSessionsEl) gaSessionsEl.textContent = data.metrics.sessions ?? 0;
+      if (gaViewsEl) gaViewsEl.textContent = data.metrics.screenPageViews ?? 0;
+
+    } catch (err) {
+      console.error("Erreur analytics:", err);
+    }
+  }
+
+  loadAnalytics();
+
+
+
+  /* -----------------------------------------
+     LOGIN ADMIN
+  ------------------------------------------*/
+>>>>>>> 54704fb (Ajout blog et analitycs)
   const adminLoginBtn = document.getElementById("adminLoginBtn");
   const loginModal = document.getElementById("loginModal");
   const closeModal = document.getElementById("closeModal");
@@ -246,6 +326,74 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   /* -----------------------------------------
+<<<<<<< HEAD
+=======
+     FORMULAIRE CONTACT
+  ------------------------------------------*/
+  const contactForm = document.getElementById("contact-form");
+  const formStatus = document.getElementById("form-status");
+
+  if (contactForm) {
+    contactForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      formStatus.textContent = "Envoi...";
+      formStatus.style.color = "var(--accent)";
+
+      try {
+        // Utilisation de increment.php en GET
+        const res = await fetch(`${API}/increment.php?type=forms`);
+        const data = await res.json();
+
+        if (data.success) {
+          formStatus.textContent = "Message envoyé ✔️";
+          formStatus.style.color = "lightgreen";
+
+          loadStats();
+
+
+  /* -----------------------------------------
+     ANALYTICS GA4 (optionnel)
+  ------------------------------------------*/
+  const gaUsersEl = document.getElementById("statGaUsers");
+  const gaSessionsEl = document.getElementById("statGaSessions");
+  const gaViewsEl = document.getElementById("statGaViews");
+
+  async function loadAnalytics() {
+    if (!gaUsersEl && !gaSessionsEl && !gaViewsEl) return;
+
+    try {
+      const res = await fetch(`${API}/analytics.php?days=30`);
+      const data = await res.json();
+
+      if (!data.success) return;
+
+      if (gaUsersEl) gaUsersEl.textContent = data.metrics.activeUsers ?? 0;
+      if (gaSessionsEl) gaSessionsEl.textContent = data.metrics.sessions ?? 0;
+      if (gaViewsEl) gaViewsEl.textContent = data.metrics.screenPageViews ?? 0;
+
+    } catch (err) {
+      console.error("Erreur analytics:", err);
+    }
+  }
+
+  loadAnalytics();
+
+          contactForm.reset();
+
+          setTimeout(() => formStatus.textContent = "", 3000);
+        }
+
+      } catch (err) {
+        formStatus.textContent = "Erreur d'envoi ❌";
+        formStatus.style.color = "salmon";
+      }
+    });
+  }
+
+
+  /* -----------------------------------------
+>>>>>>> 54704fb (Ajout blog et analitycs)
      LOGOUT
   ------------------------------------------*/
   const logoutBtn = document.getElementById("logoutBtn");

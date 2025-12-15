@@ -1028,3 +1028,14 @@ body {
 
   /* Le theme-toggle est déjà dans le header-inner, nous n'avons pas besoin de le modifier ici */
 }
+/* BLOG IA */
+.blog-status{
+  text-align:center;
+  margin-top:1rem;
+  font-size:0.85rem;
+  color: var(--muted);
+}
+
+.blog-card .btn{
+  margin-top: 0.3rem;
+}
