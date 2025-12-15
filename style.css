@@ -1039,25 +1039,3 @@ body {
 .blog-card .btn{
   margin-top: 0.3rem;
 }
-
-.modal .modal-content {
-  max-width: 420px;
-  background: var(--card);
-  padding: 2rem;
-  border-radius: 1.2rem;
-  box-shadow: var(--shadow-card);
-}
-
-#adminLoginForm input {
-  width: 100%;
-  padding: 0.7rem;
-  margin-bottom: 1rem;
-  border-radius: 0.6rem;
-  border: 1px solid var(--border);
-  background: var(--bg-alt);
-  color: var(--text);
-}
-
-#adminLoginForm button {
-  width: 100%;
-}
