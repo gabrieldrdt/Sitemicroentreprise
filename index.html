@@ -314,16 +314,14 @@
     <div class="modal-content">
       <h3 id="loginModalTitle">Connexion Admin</h3>
 
-      <form id="adminLoginForm">
-        <label for="loginEmail">Email</label>
-        <input type="email" id="loginEmail" required>
+     <form id="adminLoginForm">
+  <input id="loginEmail" type="email" required>
+  <input id="loginPassword" type="password" required>
+  <button type="submit">Connexion</button>
+</form>
 
-        <label for="loginPassword">Mot de passe</label>
-        <input type="password" id="loginPassword" required>
+<p id="loginStatus"></p>
 
-        <button class="btn btn-primary btn-full">Connexion</button>
-        <p id="loginStatus" aria-live="polite"></p>
-      </form>
 
       <button id="closeModal" class="btn btn-ghost btn-full">Fermer</button>
     </div>
